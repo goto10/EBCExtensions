@@ -6,12 +6,12 @@
 //  Copyright (c) 2015 8BitCode. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 extension String {
     func isEmail() -> Bool {
-        let regex = NSRegularExpression(pattern: "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}$", options: .CaseInsensitive, error: nil)
-        return regex?.firstMatchInString(self, options: nil, range: NSMakeRange(0, count(self))) != nil
+        let regex = try! NSRegularExpression(pattern: "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}$", options: [.CaseInsensitive])
+        return regex.firstMatchInString(self, options: [], range: NSMakeRange(0, utf16.count)) != nil
     }
     
     func isValidURL() -> Bool {
@@ -29,9 +29,9 @@ extension String {
     
     func addDropShadow(shadowOffset offset: CGSize) -> NSAttributedString {
         
-        var attString = NSMutableAttributedString(string: self)
+        let attString = NSMutableAttributedString(string: self)
         
-        var shadow = NSShadow()
+        let shadow = NSShadow()
         shadow.shadowColor = UIColor.blackColor()
         shadow.shadowOffset = offset
         shadow.shadowBlurRadius = 3.0
@@ -44,10 +44,11 @@ extension String {
     func lastNCharacters(n: Int) -> String? {
 
         var substring:String?
-        let index = self.length - n
+        let index = self.characters.count - n
         
         if index > 0 {
-            substring = self.substringFromIndex(advance(self.startIndex, index))
+            let startIndex = self.endIndex.advancedBy(n * -1)
+            substring = self.substringFromIndex(startIndex)
         }
 
         return substring

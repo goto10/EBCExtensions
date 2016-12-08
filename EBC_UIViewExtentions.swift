@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 extension UIView {
     class func loadFromNibNamed(nibNamed: String, bundle : NSBundle? = nil) -> UIView? {

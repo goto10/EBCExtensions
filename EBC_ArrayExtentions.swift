@@ -8,20 +8,11 @@
 
 import Foundation
 
-extension Array {
+extension Array where Element : Equatable {
  
-    mutating func removeObject<U: Equatable>(object: U) {
-        var index: Int?
-        for (idx, objectToCompare) in enumerate(self) {
-            if let to = objectToCompare as? U {
-                if object == to {
-                    index = idx
-                }
-            }
-        }
-        
-        if(index != nil) {
-            self.removeAtIndex(index!)
+    mutating func removeObject(object: Generator.Element) {
+        if let index = self.indexOf(object) {
+            self.removeAtIndex(index)
         }
     }
     
